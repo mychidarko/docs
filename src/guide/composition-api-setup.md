@@ -103,7 +103,7 @@ We'll explain the role of `expose` shortly.
 
 ## Accessing Component Properties
 
-When `setup` is executed, the component instance has not been created yet. As a result, you will only be able to access the following properties:
+When `setup` is executed, you will only be able to access the following properties:
 
 - `props`
 - `attrs`
@@ -115,6 +115,7 @@ In other words, you **will not have access** to the following component options:
 - `data`
 - `computed`
 - `methods`
+- `refs` (template refs)
 
 ## Usage with Templates
 

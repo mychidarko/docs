@@ -52,7 +52,7 @@ const Counter = {
 Vue.createApp(Counter).mount('#counter')
 ```
 
-We have already created our very first Vue app! This looks pretty similar to rendering a string template, but Vue has done a lot of work under the hood. The data and the DOM are now linked, and everything is now **reactive**. How do we know? Take a look at the example below where `counter` property increments every second and you will see how rendered DOM changes:
+We have already created our very first Vue app! This looks pretty similar to rendering a string template, but Vue has done a lot of work under the hood. The data and the DOM are now linked, and everything is now **reactive**. How do we know? Take a look at the example below where the `counter` property increments every second and you will see how the rendered DOM changes:
 
 ```js{8-10}
 const Counter = {
@@ -96,11 +96,11 @@ Vue.createApp(AttributeBinding).mount('#bind-attribute')
 
 <common-codepen-snippet title="Attribute dynamic binding" slug="KKpRVvJ" />
 
-Here we're encountering something new. The `v-bind` attribute you're seeing is called a **directive**. Directives are prefixed with `v-` to indicate that they are special attributes provided by Vue, and as you may have guessed, they apply special reactive behavior to the rendered DOM. Here we are basically saying "_keep this element's `title` attribute up-to-date with the `message` property on the current active instance._"
+Here we're encountering something new. The `v-bind` attribute you're seeing is called a **directive**. Directives are prefixed with `v-` to indicate that they are special attributes provided by Vue, and as you may have guessed, they apply special reactive behavior to the rendered DOM. Here, we're basically saying "_keep this element's `title` attribute up-to-date with the `message` property on the current active instance._"
 
 ## Handling User Input
 
-To let users interact with your app, we can use the `v-on` directive to attach event listeners that invoke methods on our instances:
+To let users interact with our app, we can use the `v-on` directive to attach event listeners that invoke methods on our instances:
 
 ```html
 <div id="event-handling">
@@ -158,7 +158,7 @@ Vue.createApp(TwoWayBinding).mount('#two-way-binding')
 
 ## Conditionals and Loops
 
-It's easy to toggle the presence of an element, too:
+It's easy to toggle the presence of an element too:
 
 ```html
 <div id="conditional-rendering">
@@ -220,15 +220,19 @@ The component system is another important concept in Vue, because it's an abstra
 
 ![Component Tree](/images/components.png)
 
-In Vue, a component is essentially an instance with pre-defined options. Registering a component in Vue is straightforward: we create a component object as we did with `App` objects and we define it in parent's `components` option:
+In Vue, a component is essentially an instance with pre-defined options. Registering a component in Vue is straightforward: we create a component object as we did with the `app` object and we define it in the parent's `components` option:
 
 ```js
-// Create Vue application
-const app = Vue.createApp(...)
-
-// Define a new component called todo-item
-app.component('todo-item', {
+const TodoItem = {
   template: `<li>This is a todo</li>`
+}
+
+// Create Vue application
+const app = Vue.createApp({
+  components: {
+    TodoItem // Register a new component
+  },
+  ... // Other properties for the component
 })
 
 // Mount Vue application
@@ -247,10 +251,10 @@ Now you can compose it in another component's template:
 But this would render the same text for every todo, which is not super interesting. We should be able to pass data from the parent scope into child components. Let's modify the component definition to make it accept a [prop](component-basics.html#passing-data-to-child-components-with-props):
 
 ```js
-app.component('todo-item', {
+const TodoItem = {
   props: ['todo'],
   template: `<li>{{ todo.text }}</li>`
-})
+}
 ```
 
 Now we can pass the todo into each repeated component using `v-bind`:
@@ -274,6 +278,11 @@ Now we can pass the todo into each repeated component using `v-bind`:
 ```
 
 ```js
+const TodoItem = {
+  props: ['todo'],
+  template: `<li>{{ todo.text }}</li>`
+}
+
 const TodoList = {
   data() {
     return {
@@ -283,22 +292,20 @@ const TodoList = {
         { id: 2, text: 'Whatever else humans are supposed to eat' }
       ]
     }
+  },
+  components: {
+    TodoItem
   }
 }
 
 const app = Vue.createApp(TodoList)
-
-app.component('todo-item', {
-  props: ['todo'],
-  template: `<li>{{ todo.text }}</li>`
-})
 
 app.mount('#todo-list-app')
 ```
 
 <common-codepen-snippet title="Intro-Components-1" slug="VwLxeEz" />
 
-This is a contrived example, but we have managed to separate our app into two smaller units, and the child is reasonably well-decoupled from the parent via the props interface. We can now further improve our `<todo-item>` component with more complex template and logic without affecting the parent app.
+This is a contrived example, but we have managed to separate our app into two smaller units, and the child is reasonably well-decoupled from the parent via the props interface. We can now further improve our `<todo-item>` component with a more complex template and logic without affecting the parent app.
 
 In a large application, it is necessary to divide the whole app into components to make development manageable. We will talk a lot more about components [later in the guide](component-basics.html), but here's an (imaginary) example of what an app's template might look like with components:
 

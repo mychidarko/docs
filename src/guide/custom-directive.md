@@ -49,7 +49,7 @@ A directive definition object can provide several hook functions (all optional):
 
 - `beforeMount`: called when the directive is first bound to the element and before parent component is mounted.
 
-- `mounted`: called when the bound element's parent component is mounted.
+- `mounted`: called before the bound element's parent component is mounted.
 
 - `beforeUpdate`: called before the containing component's VNode is updated
 
@@ -214,4 +214,4 @@ app.component('my-component', {
 
 Unlike attributes, directives can't be passed to a different element with `v-bind="$attrs"`.
 
-With [fragments](/guide/migration/fragments.html#overview) support, components can potentially have more than one root nodes. When applied to a multi-root component, directive will be ignored and the warning will be thrown.
+With [fragments](/guide/migration/fragments.html#overview) support, components can potentially have more than one root node. When applied to a multi-root component, directive will be ignored and the warning will be thrown.
